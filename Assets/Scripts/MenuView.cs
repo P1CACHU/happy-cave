@@ -1,16 +1,25 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuView : MonoBehaviour
 {
 	[SerializeField] private Transform _back;
 	[SerializeField] private Transform _close;
-	[SerializeField] private Transform _sound;
-	[SerializeField] private Transform _music;
+	[SerializeField] private Toggle _sound;
+	[SerializeField] private Toggle _music;
 	[SerializeField] private float _animationSpeed;
 
 	public event Action CloseButtonClick;
+	public event Action<bool> SoundToggleClick;
+	public event Action<bool> MusicToggleClick;
+
+	public void SetAudioState(bool sounds, bool music)
+	{
+		_sound.isOn = sounds;
+		_music.isOn = music;
+	}
 
 	public void Show()
 	{
@@ -19,10 +28,10 @@ public class MenuView : MonoBehaviour
 		var seq = DOTween.Sequence();
 		seq.Append(_back.DOMove(new Vector3(Screen.width / 2, Screen.height / 2, 0.0f), _animationSpeed));
 		seq.Append(_close.DOScale(Vector3.one, _animationSpeed));
-		seq.Join(_sound.DOScale(Vector3.one, _animationSpeed));
-		seq.Join(_sound.DOShakeRotation(_animationSpeed));
-		seq.Join(_music.DOScale(Vector3.one, _animationSpeed));
-		seq.Join(_music.DOShakeRotation(_animationSpeed));
+		seq.Join(_sound.transform.DOScale(Vector3.one, _animationSpeed));
+		seq.Join(_sound.transform.DOShakeRotation(_animationSpeed));
+		seq.Join(_music.transform.DOScale(Vector3.one, _animationSpeed));
+		seq.Join(_music.transform.DOShakeRotation(_animationSpeed));
 	}
 
 	public void Hide(bool immediately = false)
@@ -33,13 +42,23 @@ public class MenuView : MonoBehaviour
 		seq.Append(_back.DOMove(new Vector3(Screen.width / 2, Screen.height + h, 0.0f),
 			immediately ? 0.0f : _animationSpeed));
 		seq.Append(_close.DOScale(Vector3.zero, 0.0f));
-		seq.Join(_sound.DOScale(Vector3.zero, 0.0f));
-		seq.Join(_music.DOScale(Vector3.zero, 0.0f));
+		seq.Join(_sound.transform.DOScale(Vector3.zero, 0.0f));
+		seq.Join(_music.transform.DOScale(Vector3.zero, 0.0f));
 		seq.AppendCallback(() => { gameObject.SetActive(false); });
 	}
 
 	public void OnCloseButtonClick()
 	{
 		CloseButtonClick?.Invoke();
+	}
+	
+	public void OnSoundToggleClick(bool value)
+	{
+		SoundToggleClick?.Invoke(value);
+	}
+	
+	public void OnMusicToggleClick(bool value)
+	{
+		MusicToggleClick?.Invoke(value);
 	}
 }
