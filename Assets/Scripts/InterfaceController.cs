@@ -8,13 +8,14 @@ public class InterfaceController : MonoBehaviour
 	[SerializeField] private Game _game;
 	[SerializeField] private MenuView _menu;
 	[SerializeField] private float _animationSpeed;
+	[SerializeField] private ParticleSystem _particleSystem;
 
 	private void Start()
 	{
 		_menu.CloseButtonClick += OnMenuCloseButtonClick;
 		_menu.SoundToggleClick += OnMenuSoundToggleClick;
 		_menu.MusicToggleClick += OnMenuMusicToggleClick;
-		_menu.Hide(true);
+		_menu.Hide(() => { _particleSystem.Stop(); },true);
 	}
 
 	private void OnDestroy()
@@ -40,7 +41,7 @@ public class InterfaceController : MonoBehaviour
 	private void OnMenuCloseButtonClick()
 	{
 		GameContinued?.Invoke();
-		_menu.Hide();
+		_menu.Hide(() => { _particleSystem.Stop(); });
 		_menuButton.DOScale(Vector3.one, _animationSpeed);
 	}
 
@@ -48,7 +49,7 @@ public class InterfaceController : MonoBehaviour
 	{
 		GamePaused?.Invoke();
 		_menuButton.DOScale(Vector3.zero, _animationSpeed);
-		_menu.Show();
+		_menu.Show(() => { _particleSystem.Play(); });
 		_menu.SetAudioState(_game.IsSoundsActive, _game.IsMusicActive);
 	}
 }
