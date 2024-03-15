@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Cainos.PixelArtTopDown_Basic
@@ -46,5 +47,21 @@ namespace Cainos.PixelArtTopDown_Basic
 
             GetComponent<Rigidbody2D>().velocity = speed * dir;
         }
+        private void OnTriggerEnter2D (Collider2D col)
+        {
+         Debug.Log("collision");
+
+         var apple = col.gameObject.GetComponent <Apple>();
+    if
+    (apple!=null)
+    { 
+    var pos = Camera.main.ScreenToWorldPoint (FindObjectOfType <scoreCounter>().transform .position);
+       apple.transform.DOMove (pos, 1.0f).OnComplete(()=>{Destroy(apple.gameObject);});
+      
     }
+    
+   }
+   
+    } 
+    
 }
