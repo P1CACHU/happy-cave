@@ -62,7 +62,7 @@ public class Game : MonoBehaviour
 		PlayerPrefs.Save();
 	}
 
-	private void LoadSoundState()
+    private void LoadSoundState()
 	{
 		IsSoundsActive = PlayerPrefs.GetInt(SoundsActivePrefsKey) != 0;
 		IsMusicActive = PlayerPrefs.GetInt(MusicActivePrefsKey) != 0;

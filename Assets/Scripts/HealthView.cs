@@ -22,9 +22,9 @@ public class HealthView : MonoBehaviour
 			Debug.LogError("CAMERA");
 			return;
 		}
-		
+
 		var pos = cam.WorldToScreenPoint(_anchor.position);
-		
+
 		transform.position = pos + _offset;
 	}
 

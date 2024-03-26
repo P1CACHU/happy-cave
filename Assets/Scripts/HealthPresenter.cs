@@ -3,12 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class HealthPresenter : MonoBehaviour, IDamageHandler<Damage>
 {
-	private const string PlayerHealthAmountKey = "PlayerHealthAmountKey";
-
-	[SerializeField] private float _hp = 100.0f;
 	[SerializeField] private HealthView _prefab;
 
-	private HealthModel _model;
+	private PlayerModel _model;
+	private ISaver<PlayerModel> _saver;
 	private HealthView _view;
 
 	private void Awake()
@@ -16,17 +14,15 @@ public class HealthPresenter : MonoBehaviour, IDamageHandler<Damage>
 		_view = Instantiate(_prefab, FindObjectOfType<InterfaceController>().transform);
 		_view.SetAnchor(transform);
 
-		if (PlayerPrefs.HasKey(PlayerHealthAmountKey))
+		_saver = new JsonSaver();
+		if (Application.platform == RuntimePlatform.OSXEditor)
 		{
-			_model = new HealthModel(PlayerPrefs.GetFloat(PlayerHealthAmountKey));
+			_saver = new XmlSaver();
 		}
-		else
-		{
-			_model = new HealthModel(_hp);
-		}
+		_model = _saver.Load();
 
 		_model.DataChanged += OnModelDataChanged;
-		_view.SetValue(_model.Amount);
+		_view.SetValue(_model.Health);
 	}
 
 	private void OnDestroy()
@@ -36,20 +32,18 @@ public class HealthPresenter : MonoBehaviour, IDamageHandler<Damage>
 
 	public void Handle(Damage dmg)
 	{
-		_model.Amount -= dmg.Amount;
+		_model.Health -= dmg.Amount;
 	}
 
 	private void OnModelDataChanged()
 	{
-		if (_model.Amount <= 0.0f)
+		if (_model.Health <= 0)
 		{
-			PlayerPrefs.DeleteKey(PlayerHealthAmountKey);
 			SceneManager.LoadScene("Scenes/Main");
 			return;
 		}
 
-		_view.SetValue(_model.Amount);
-		PlayerPrefs.SetFloat(PlayerHealthAmountKey, _model.Amount);
-		PlayerPrefs.Save();
+		_view.SetValue(_model.Health);
+		_saver.Save(_model);
 	}
 }

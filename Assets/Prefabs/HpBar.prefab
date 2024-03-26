@@ -89,4 +89,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _icon: {fileID: 1416882207083213893}
-  _offset: {x: 75, y: 210, z: 0}
+  _offsetPosition: {x: 75, y: 210, z: 0}

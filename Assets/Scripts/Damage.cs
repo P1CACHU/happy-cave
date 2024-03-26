@@ -1,8 +1,8 @@
 public struct Damage
 {
-	public float Amount { get; }
+	public int Amount { get; }
 
-	public Damage(float amount)
+	public Damage(int amount)
 	{
 		Amount = amount;
 	}
