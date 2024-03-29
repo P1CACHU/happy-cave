@@ -1,19 +1,17 @@
-﻿using DG.Tweening;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Cainos.PixelArtTopDown_Basic
 {
 	public class TopDownCharacterController : MonoBehaviour
 	{
+		private static readonly int AnimDirection = Animator.StringToHash("Direction");
+		private static readonly int AnimIsMoving = Animator.StringToHash("IsMoving");
 		public float speed;
-		public Vector2 DirectionOfView => directionOfView;
 
 		private Animator animator;
 		private Vector2 direction;
 		private Vector2 directionOfView;
-		
-		private static readonly int AnimDirection = Animator.StringToHash("Direction");
-		private static readonly int AnimIsMoving = Animator.StringToHash("IsMoving");
+		public Vector2 DirectionOfView => directionOfView;
 
 		private void Start()
 		{
@@ -52,21 +50,25 @@ namespace Cainos.PixelArtTopDown_Basic
 			GetComponent<Rigidbody2D>().velocity = speed * direction;
 
 			if (Mathf.Abs(directionOfView.y) > Mathf.Abs(directionOfView.x))
+			{
 				directionOfView.x = 0;
+			}
 			else
+			{
 				directionOfView.y = 0;
+			}
 		}
 
 		private void OnTriggerEnter2D(Collider2D col)
 		{
-			Debug.Log("collision");
-
 			var apple = col.gameObject.GetComponent<Apple>();
-			if (apple != null)
+			if (apple is null)
 			{
-				var pos = Camera.main.ScreenToWorldPoint(FindObjectOfType<scoreCounter>().transform.position);
-				apple.transform.DOMove(pos, 1.0f).OnComplete(() => { Destroy(apple.gameObject); });
+				return;
 			}
+
+			var pos = Camera.main.ScreenToWorldPoint(FindObjectOfType<scoreCounter>().transform.position);
+			apple.MoveTo(pos);
 		}
 	}
 }

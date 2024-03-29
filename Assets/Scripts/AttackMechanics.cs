@@ -10,6 +10,7 @@ public class AttackMechanics : MonoBehaviour
 	[SerializeField] private float distance;
 	[SerializeField] private float attackSpeed;
 	
+	private readonly Vector3 initialScale = new(1, 0, 1);
 
 	private void Start()
 	{
@@ -29,7 +30,7 @@ public class AttackMechanics : MonoBehaviour
 		else 
 		{
 			dealer.IsActive = false;
-			whipPoint.localScale = new Vector3(1, 0, 1);
+			whipPoint.localScale = initialScale;
 		}
 	}
 }

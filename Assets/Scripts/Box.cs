@@ -1,4 +1,3 @@
-using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,29 +7,28 @@ public class Box : MonoBehaviour
 	[SerializeField] private PropsHealth propsHealth;
 	[SerializeField] private float maxDistance;
 	[SerializeField] private int appleCount;
-	[SerializeField] private int delay;
+	[SerializeField] private float delay;
 
 	private Vector3 position;
 
 	private void Start()
 	{
-		propsHealth.OnDestroy += OnDestroyBox;
+		propsHealth.OnDestroy += DrawReward;
 		position = transform.position;
 	}
 
-	private void OnDestroyBox()
+	private void DrawReward()
 	{
-		for (int i = 0; i < appleCount; i++)
+		for (var i = 0; i < appleCount; i++)
 		{
 			var newApple = Instantiate(applePrefab, transform.position, Quaternion.identity);
-			float randomComp = Random.Range(-maxDistance, maxDistance);
-			newApple.transform.DOMove(
-				new Vector3(position.x + randomComp, position.y + randomComp, position.z),
-				2);
+			var randomComp = Random.Range(-maxDistance, maxDistance);
+			newApple.MoveToWithTime(new Vector3(position.x + randomComp, position.y + randomComp, position.z), 2);
 		}
+		
 		DestroyBox();
 	}
-	
+
 	private void DestroyBox()
 	{
 		Destroy(gameObject);

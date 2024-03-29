@@ -1,22 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Apple : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[SerializeField] private float _animationTime;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
- 
-  
+	public void MoveTo(Vector3 pos)
+	{
+		transform.DOMove(pos, 1.0f).OnComplete(Destroy);
+	}
+
+	public void MoveToWithTime(Vector3 pos, float time)
+	{
+		transform.DOMove(pos, time);
+	}
+
+	private void Destroy()
+	{
+		gameObject.SetActive(false);
+		Destroy(gameObject, 3);
+	}
 }
