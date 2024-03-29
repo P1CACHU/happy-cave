@@ -1,15 +1,33 @@
+using System;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Pool;
 
-public class Bunny : MonoBehaviour
+namespace MyNamespace
 {
-	private static readonly int IsRun = Animator.StringToHash("IsRun");
-
-	[SerializeField] private float _speed;
-	[SerializeField] private Animator _anim;
-
-	private void Update()
+	public class Bunny : MonoBehaviour
 	{
-		transform.Translate(Vector3.right * (Input.GetAxis("Horizontal") * _speed));
-		_anim.SetBool(IsRun, Input.GetAxis("Horizontal") != 0.0f);
+		private const int InitialNumber = 3;
+		private const string HorizontalAxisName = "Horizontal";
+		private static readonly int IsRun = Animator.StringToHash("IsRun");
+
+		[SerializeField] private float _speed;
+		[SerializeField] private Animator _anim;
+
+		private void Update()
+		{
+			transform.Translate(Vector3.right * (Input.GetAxis(HorizontalAxisName) * _speed));
+			_anim.SetBool(IsRun, Input.GetAxis(HorizontalAxisName) != 0.0f);
+		}
+
+		private void OnDestroy()
+		{
+			_anim.SetBool(IsRun, Input.GetAxis(HorizontalAxisName) != 0.0f);
+		}
+
+		public bool GetSpecial(int number)
+		{
+			return number > InitialNumber;
+		}
 	}
 }

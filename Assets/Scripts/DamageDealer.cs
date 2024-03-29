@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DamageDealer : MonoBehaviour
 {
-	[SerializeField] private float _damage;
+	[SerializeField] private int _damage;
 
 	public bool IsActive;
 
