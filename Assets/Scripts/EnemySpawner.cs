@@ -1,3 +1,4 @@
+using Cainos.PixelArtTopDown_Basic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -17,6 +18,7 @@ public class EnemySpawner : MonoBehaviour
 		if (comp != null)
 		{
 			comp.Init(rndEnemy._damage, rndEnemy._health, rndEnemy._reward);
+			comp.SetTartet(FindObjectOfType<TopDownCharacterController>().transform);
 		}
 	}
 }

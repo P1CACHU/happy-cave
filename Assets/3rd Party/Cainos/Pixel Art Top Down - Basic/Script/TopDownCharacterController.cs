@@ -17,8 +17,7 @@ namespace Cainos.PixelArtTopDown_Basic
 		{
 			animator = GetComponent<Animator>();
 		}
-
-
+		
 		private void Update()
 		{
 			direction = Vector2.zero;

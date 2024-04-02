@@ -12,8 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e9d1c32e82094dac8940033298e2b69, type: 3}
   m_Name: LevelEnemyConfig
   m_EditorClassIdentifier: 
-  _enemyEntries: []
-  _models:
-  - _apples: 0
-    _experience: 0
-    _health: 0
+  _enemyEntries:
+  - _prefab: {fileID: 2138279878837099515, guid: 8362c35e56c8b49c485bf7f2dfbab47d, type: 3}
+    _health: 12
+    _reward: 0
+    _damage: 0
+  - _prefab: {fileID: 2138279878837099515, guid: 81657420bddc7481eaa321b2e1e215ed, type: 3}
+    _health: 12
+    _reward: 0
+    _damage: 0
+  - _prefab: {fileID: 2138279878837099515, guid: 6705a0ea5669042ac976819389752ab8, type: 3}
+    _health: 12
+    _reward: 0
+    _damage: 0
